@@ -1,8 +1,8 @@
 
 pipeline {
     agent any
-    tools {
-        maven 'Maven' // Ensure you have Maven configured in Jenkins Global Tool Configuration
+    environment {
+        PATH = "/usr/share/man/man1/mvn.1.gz:$PATH"
     }
     stages {
         stage('Clone Repository') {
@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                sh 'mvn clean install'
             }
         }
     }

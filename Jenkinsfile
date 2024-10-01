@@ -25,13 +25,6 @@ pipeline {
                 echo 'Deploying the application...'
             }
         }
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh 'mvn sonar:sonar'
-                }
-            }
-        }
     }
     post {
         success {

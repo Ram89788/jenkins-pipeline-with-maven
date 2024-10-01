@@ -1,20 +1,17 @@
-
 pipeline {
     agent any
+    tools {
+        maven 'Maven' // Ensure you have Maven configured in Jenkins Global Tool Configuration
+    }
     stages {
-        stage('Unit Test') {
+        stage('Clone Repository') {
             steps {
-                sh 'mvn test'
+                git url: 'https://github.com/Ram89788/jenkins-pipeline-with-maven.git', branch: 'main'
             }
         }
         stage('Build') {
             steps {
-                sh 'mvn clean install'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying the application...'
+                sh 'mvn clean package'
             }
         }
     }

@@ -1,17 +1,25 @@
 pipeline {
     agent any
     tools {
-        maven 'Maven' // Ensure you have Maven configured in Jenkins Global Tool Configuration
+        maven 'Maven' // Make sure the tool name matches Jenkins configuration
     }
     stages {
         stage('Clone Repository') {
             steps {
+                // Clone the repository from GitHub
                 git url: 'https://github.com/Ram89788/jenkins-pipeline-with-maven.git', branch: 'main'
             }
         }
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                // Execute Maven build
+                script {
+                    try {
+                        sh 'mvn clean package'
+                    } catch (Exception e) {
+                        error("Build failed with error: ${e.message}")
+                    }
+                }
             }
         }
     }
@@ -21,6 +29,9 @@ pipeline {
         }
         failure {
             echo 'Build failed!'
+        }
+        always {
+            echo 'Pipeline finished.'
         }
     }
 }
